@@ -3,8 +3,15 @@ import '../widget/custom_button.dart';
 import '../widget/custom_divider.dart';
 import '../widget/my_custom_textform.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  bool _isShowPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +19,7 @@ class SignUpPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,9 +55,10 @@ class SignUpPage extends StatelessWidget {
                         keyboard: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 10),
-                      const MyCustomTextForm(
+                      MyCustomTextForm(
                         text: 'Password',
-                        icon: Icon(Icons.visibility_off),
+                        obscureText: _isShowPassword,
+                        icon: toggleVisibility(),
                       ),
                       Row(
                         children: [
@@ -111,6 +119,19 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget toggleVisibility() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _isShowPassword = !_isShowPassword;
+        });
+      },
+      icon: _isShowPassword
+          ? const Icon(Icons.visibility)
+          : const Icon(Icons.visibility_off),
     );
   }
 }
